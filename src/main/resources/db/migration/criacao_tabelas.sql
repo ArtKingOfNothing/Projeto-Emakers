@@ -1,0 +1,37 @@
+CREATE TABLE Pessoa (
+  idPessoa INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  email VARCHAR(100) NOT NULL,
+  senha VARCHAR(100) NOT NULL,
+  cpf VARCHAR(11) NOT NULL,
+  cep VARCHAR(8) NOT NULL,
+  nome VARCHAR(100) NOT NULL,
+  PRIMARY KEY (idPessoa),
+  UNIQUE (email),
+  UNIQUE (cpf)
+);
+
+CREATE TABLE Livro (
+  idLivro INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(100) NOT NULL,
+  autor VARCHAR(100) NOT NULL,
+  data_lancamento DATE NOT NULL,
+  quantidade INT UNSIGNED NOT NULL DEFAULT 1,
+  PRIMARY KEY (idLivro)
+);
+
+CREATE TABLE Emprestimo (
+  idLivro INT UNSIGNED NOT NULL,
+  idPessoa INT UNSIGNED NOT NULL,
+  data_emprestimo DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (idLivro, idPessoa),
+  CONSTRAINT fk_Livro_has_Pessoa_Livro
+    FOREIGN KEY (idLivro)
+    REFERENCES Livro (idLivro)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT fk_Livro_has_Pessoa_Pessoa1
+    FOREIGN KEY (idPessoa)
+    REFERENCES Pessoa (idPessoa)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
